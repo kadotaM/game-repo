@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class PlayerConroller : MonoBehaviour
 {
-    public float speed;
     private Rigidbody2D rb;
-    public float health;
     public GameObject bullet;
-    public float bullet_speed;
-    public float shoot_timer;
     private bool can_shoot;
     
+    private float speed;
+    private float health;
+    private float bullet_speed;
+    private float shoot_timer;
 
     // Start is called before the first frame update
     void Start()
     {
+        this.speed = Config.Instance.speed;
+        this.health = Config.Instance.speed;
+        this.shoot_timer = Config.Instance.shoot_timer;
+        this.bullet_speed = Config.Instance.bullet_speed;
+
         this.rb = this.GetComponent<Rigidbody2D>();
         this.can_shoot = true;
         InvokeRepeating("change_shoot", 0, shoot_timer);
@@ -29,13 +34,13 @@ public class PlayerConroller : MonoBehaviour
         if(Input.GetMouseButton(0)){
             if(this.can_shoot){
                 shoot();
-                this.can_shoot = false;
             }
         }
     }
 
     void shoot()
     {
+        this.can_shoot = false;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         worldPosition.z = 0;
         Vector3 shoot_direction = worldPosition-gameObject.transform.position;
